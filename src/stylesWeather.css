@@ -1,0 +1,53 @@
+
+.App-weather {
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  margin: 100px auto;
+  padding: 30px;
+  max-width: 500px;
+  font-size: 12px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -100%);
+  background-color: rgba(255, 255, 255, 0.17);
+  backdrop-filter: blur(80px);
+  backdrop-filter: contrast(50%);
+  backdrop-filter: brightness(50%);
+  color: white;
+}
+
+.flex-weather {
+  display: flex;
+  flex-direction: row;
+  gap: 20px
+  
+}
+
+h1, h2, p {
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+body {
+  background-image: url(https://www.gratistodo.com/wp-content/uploads/2021/12/Estrellas-gif-2.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-position: absolute; */
+}
+
+.description {
+  font-size: 30px;
+  backdrop-filter: blur(80px);
+  backdrop-filter: contrast(50%);
+  backdrop-filter: brightness(50%);
+}
+
+.btn-weather {
+  background-color: rgba(255, 255, 255, 0.17);
+  backdrop-filter: blur(50%);
+  backdrop-filter: contrast(50%);
+  backdrop-filter: brightness(50%);
+  border: none;
+}
