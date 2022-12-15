@@ -1,35 +1,30 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const Weather = ({changeUnits}) => {
+const Weather = ({ changeUnits }) => {
+  const [weather, setWeather] = useState({});
+  const [isCentigrades, setIsCentigrades] = useState({});
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success);
+    function success(pos) {
+      const crd = pos.coords;
 
-const [weather, setWeather] = useState({});
-const [isCentigrades, setIsCentigrades] = useState({})
+      console.log("Your current position is:");
+      console.log(`Latitude : ${crd.latitude}`);
+      console.log(`Longitude: ${crd.longitude}`);
+      console.log(`More or less ${crd.accuracy} meters.`);
 
-useEffect(() => {
-  navigator.geolocation.getCurrentPosition(success);
-  function success(pos) {
-    const crd = pos.coords;
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${crd.latitude}&lon=${crd.longitude}&appid=499b108b5eea0da22390f0019261c532&units=metric`
+        )
+        .then((res) => setWeather(res.data));
+    }
+  }, []);
 
-    console.log("Your current position is:");
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
-
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${crd.latitude}&lon=${crd.longitude}&appid=499b108b5eea0da22390f0019261c532&units=metric`
-      )
-      .then((res) => setWeather(res.data));
-  }
-}, []);
-
-
-
-
-console.log(weather)
+  console.log(weather);
 
   return (
     <div className="App-weather">
@@ -37,11 +32,20 @@ console.log(weather)
       <h2>
         {weather.name} - {weather.sys?.country}
       </h2>
-      <img src={weather.weather?.[0].description} alt="" />
-      <p className='description'>"{weather.weather?.[0]?.description}"</p>
+      <div className="img-icon">
+        <img
+          src={`http://openweathermap.org/img/wn/${weather.weather?.[0].icon}.png`}
+          alt=""
+        />
+      </div>
+      <p className="description">"{weather.weather?.[0]?.description}"</p>
       <div className="flex-weather">
         <div>
-          Temperature <p className='temp'>{isCentigrades ? weather.main?.temp : (weather.main?.temp*1.8+32)} {isCentigrades ? '°C': '°F'}</p>
+          Temperature{" "}
+          <p className="temp">
+            {isCentigrades ? weather.main?.temp : weather.main?.temp * 1.8 + 32}{" "}
+            {isCentigrades ? "°C" : "°F"}
+          </p>
         </div>
 
         <div>
@@ -50,12 +54,18 @@ console.log(weather)
         <div>
           Pressuere <p>{weather.main?.pressure} hPa</p>
         </div>
-        <button className="btn-weather" onClick={() => { setIsCentigrades(!isCentigrades)}}> Degrees °F/°C
+        <button
+          className="btn-weather"
+          onClick={() => {
+            setIsCentigrades(!isCentigrades);
+          }}
+        >
+          {" "}
+          Degrees °F/°C
         </button>
       </div>
-      
     </div>
   );
-}
+};
 
 export default Weather;
